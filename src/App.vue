@@ -3,12 +3,11 @@
         <div class="led-screen">
             <div class="led-color">
                 <div id="bottom-screen-body">
-                    <MainScreen :pokemonsData="pokemonsData"/>
+                    <MainScreen :pokemonsData="pokemonsData" @display-pokemon="displayPokemon"/>
                 </div>
             </div>
         </div>
     </div>
-    {{ pokemonsData }}
 </template>
 
 <!-- <script setup>
@@ -28,6 +27,11 @@ export default {
     data() {
         return {
             pokemonsData: null,
+        }
+    },
+    methods: {
+        displayPokemon() {
+            console.log("hi");
         }
     },
     async mounted() {

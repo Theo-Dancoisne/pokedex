@@ -1,10 +1,12 @@
 :root {
     --led-screen-background-image-none: none;
     --led-screen-background-image: url("ressources/led_screen.jpg");
-    --led-screen-background-color-white: linear-gradient(to bottom right, rgba(207, 207, 207, 0.4), rgba(113, 113, 113, 0.3));
-    --led-screen-text-color-white: rgba(255, 255, 255, 0.8);
-    --led-screen-background-color-green: linear-gradient(to bottom right, rgb(156, 151, 21), rgba(0, 0, 0, 0.6));
-    --led-screen-text-color-green: rgba(0, 0, 0, 0.4);
+    /* green theme */
+    --led-screen-background-color: linear-gradient(to bottom right, rgb(156, 151, 21), rgba(0, 0, 0, 0.6));
+    --led-screen-text-color: rgba(0, 0, 0, 0.4);
+    /* white theme */
+    /*--led-screen-background-color: linear-gradient(to bottom right, rgba(207, 207, 207, 0.4), rgba(113, 113, 113, 0.3));
+    --led-screen-text-color: rgba(255, 255, 255, 0.8);*/
 }
 @font-face {
     font-family: "Lcd1";
@@ -25,14 +27,14 @@
 .led-color {
     width: 100%;
     height: 100%;
-    background-image: var(--led-screen-background-color-green);
+    background-image: var(--led-screen-background-color);
 }
 
 #bottom-screen {
     width: 500px;
     height: 270px;
     font-family: "Lcd2";
-    color: var(--led-screen-text-color-green);
+    color: var(--led-screen-text-color);
     font-size: 3em;    /* differs by font */
 }
 #bottom-screen-body {
@@ -48,7 +50,7 @@
     margin: 0;
     padding-inline-start: 0 !important;
 }
-#bottom-screen-body ul li:hover, #bottom-screen-body ul li:focus {
-    background-color: var(--led-screen-text-color-green);
+#bottom-screen-body ul li:hover {
+    background-color: var(--led-screen-text-color);
     color: rgb(156, 151, 21);
 }
