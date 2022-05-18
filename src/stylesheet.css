@@ -39,4 +39,16 @@
     width: 90%;
     height: 90%;
     padding: 2.5% 5%;
+    overflow: hidden scroll;
+}
+#bottom-screen-body::-webkit-scrollbar { background-color: transparent; }
+#bottom-screen-body::-webkit-scrollbar-thumb { background-color: transparent; }
+#bottom-screen-body ul {
+    list-style: none;
+    margin: 0;
+    padding-inline-start: 0 !important;
+}
+#bottom-screen-body ul li:hover, #bottom-screen-body ul li:focus {
+    background-color: var(--led-screen-text-color-green);
+    color: rgb(156, 151, 21);
 }

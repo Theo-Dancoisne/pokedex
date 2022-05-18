@@ -3,27 +3,35 @@
         <div class="led-screen">
             <div class="led-color">
                 <div id="bottom-screen-body">
-                    azertyui
+                    <MainScreen :pokemonsData="pokemonsData"/>
                 </div>
             </div>
         </div>
     </div>
-    <div>{{pokemonsData}}</div>
+    {{ pokemonsData }}
 </template>
 
+<!-- <script setup>
+import { ref, reactive } from "vue";
+</script> -->
+
 <script>
-//import { reactive } from "vue";
 import axios from "axios";
-import style from "./stylesheet.css";
+import "./stylesheet.css";
+import MainScreen from "./vues/main-screen.vue";
 
 export default {
+    name: "App",
+    components: {
+        MainScreen
+    },
     data() {
         return {
-            pokemonsData: null
+            pokemonsData: null,
         }
     },
     async mounted() {
-        await axios.get("https://pokeapi.co/api/v2/pokemon/1").then(res => (this.pokemonsData = res));
+        await axios.get("https://pokeapi.co/api/v2/pokemon/").then(res => (this.pokemonsData = res));
     }
 }
 </script>
