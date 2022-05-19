@@ -45,25 +45,18 @@ watch(sharpindex, () => {
 });
 
 document.addEventListener("keydown", (keycode) => {
-    if (keycode.key === "ArrowDown") {
-        if (Object.keys(allPokemons.value.data.results).length - 1 != sharpindex.value) {
-            document.getElementById(sharpindex.value).removeAttribute("class");
-            sharpindex.value++;
-            document.getElementById(sharpindex.value).setAttribute("class", "hover");
-            window.location.href = "#" + sharpindex.value;
-            emits("display-pokemon", document.getElementById(sharpindex.value).getAttribute("pokemonUrl"))
-        }
-    }
+    if (keycode.key === "ArrowDown") next("down");
+    if (keycode.key === "ArrowUp") next("up");
 });
-document.addEventListener("keydown", (keycode) => {
-    if (keycode.key === "ArrowUp") {
-        if (sharpindex.value != 0) {
-            document.getElementById(sharpindex.value).removeAttribute("class");
-            sharpindex.value--;
-            document.getElementById(sharpindex.value).setAttribute("class", "hover");
-            window.location.href = "#" + sharpindex.value;
-            emits("display-pokemon", document.getElementById(sharpindex.value).getAttribute("pokemonUrl"))
-        }
+
+function next(direction) {
+    let condition = (direction === "down")? Object.keys(allPokemons.value.data.results).length - 1: 0;
+    if(sharpindex.value != condition) {
+        document.getElementById(sharpindex.value).removeAttribute("class");
+        (direction === "down")? sharpindex.value++: sharpindex.value--;
+        document.getElementById(sharpindex.value).setAttribute("class", "hover");
+        window.location.href = "#" + sharpindex.value;
+        emits("display-pokemon", document.getElementById(sharpindex.value).getAttribute("pokemonUrl"));
     }
-});
+}
 </script>
