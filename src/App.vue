@@ -1,9 +1,18 @@
 <template>
-    <div id="bottom-screen">
-        <div class="led-screen">
-            <div class="led-color">
+    <div id="screen">
+        <div class="led-background-image">
+            <div class="led-background-color">
+                <div id="top-screen-body">
+                    <TopScreen :pokemonURL="pokemonURL"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="screen">
+        <div class="led-background-image">
+            <div class="led-background-color">
                 <div id="bottom-screen-body">
-                    <MainScreen :pokemonsData="pokemonsData" @display-pokemon="displayPokemon"/>
+                    <MainScreen @display-pokemon="displayPokemon"/>
                 </div>
             </div>
         </div>
@@ -15,27 +24,25 @@ import { ref, reactive } from "vue";
 </script> -->
 
 <script>
-import axios from "axios";
 import "./stylesheet.css";
+import TopScreen from "./vues/top-screen.vue";
 import MainScreen from "./vues/main-screen.vue";
 
 export default {
     name: "App",
     components: {
-        MainScreen
+        TopScreen,
+        MainScreen,
     },
     data() {
         return {
-            pokemonsData: null,
+            pokemonURL: null,
         }
     },
     methods: {
-        displayPokemon() {
-            console.log("hi");
+        displayPokemon(i) {
+            this.pokemonURL = i;
         }
     },
-    async mounted() {
-        await axios.get("https://pokeapi.co/api/v2/pokemon/").then(res => (this.pokemonsData = res));
-    }
 }
 </script>

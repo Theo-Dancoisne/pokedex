@@ -3,59 +3,67 @@
 </template>
 
 <script setup>
-import { ref, reactive, defineEmits, watch } from "vue";
+import { ref, reactive, watch } from "vue";
+import axios from "axios";
 
-const props = defineProps(["pokemonsData"]);
+const allPokemons =  reactive({});
 const emits = defineEmits(["display-pokemon"]);
-const list = ref("<ul>");
+const list = ref("<ul id='pokemonlist'>");
 const bodyContent = ref(list);
 const sharpindex = ref(0);
-window.location.href = "#" + sharpindex.value;
-watch(sharpindex, () => {
-    let syntheVoice = new SpeechSynthesisUtterance(document.getElementById(sharpindex.value).innerHTML);
-    const myVoices = [
-        "Microsoft Guy Online (Natural) - English (United States)",
-        "Google US English (en-US)"/*,
-        "Google UK English Male"*/
-    ]
-    let allVoices = speechSynthesis.getVoices();
+
+const myVoices = [
+    "Microsoft Guy Online (Natural) - English (United States)",
+    "Google UK English Male"
+]
+let allVoices = null;
+
+start();
+async function start() {
+    allVoices = speechSynthesis.getVoices();
     setTimeout(() => {
-        speechSynthesis.cancel();
         allVoices = speechSynthesis.getVoices();
         allVoices = allVoices.find(({ name }) => myVoices.includes(name));
-        syntheVoice.voice = allVoices;
-        speechSynthesis.speak(syntheVoice);
     }, 100);
+    await axios.get("https://pokeapi.co/api/v2/pokemon/").then(res => (allPokemons.value = res));
+    Object.values(allPokemons.value.data.results).forEach((element, index) => {list.value += `<li id=${index} pokemonUrl=${element.url}>${element.name}</li>`});
+    list.value += "</ul>";
+    window.location.href = "#" + sharpindex.value;
+    setTimeout(() => {
+        document.getElementById(sharpindex.value).setAttribute("class", "hover");
+        let li = document.getElementById("pokemonlist").childNodes;
+        li.forEach(function (element) {
+            element.onclick = () => emits("display-pokemon", element.getAttribute("pokemonUrl"));
+        });
+    }, 10);
+}
+watch(sharpindex, () => {
+    speechSynthesis.cancel();
+    let syntheVoice = new SpeechSynthesisUtterance(document.getElementById(sharpindex.value).innerHTML);
+    syntheVoice.voice = allVoices;
+    speechSynthesis.speak(syntheVoice);
 });
 
-setTimeout(() => {
-    const allPokemons = reactive(props.pokemonsData);
-    Object.values(allPokemons.data.results).forEach((element, index) => {list.value += `<li id=${index} @click="emits('display-pokemon')">${element.name}</li>`});
-    list.value += "</ul>";
-}, 100);
-
-//let sharpindex = 0;
 document.addEventListener("keydown", (keycode) => {
     if (keycode.key === "ArrowDown") {
-        if (Object.keys(props.pokemonsData.data.results).length - 1 != sharpindex.value) {
+        if (Object.keys(allPokemons.value.data.results).length - 1 != sharpindex.value) {
+            document.getElementById(sharpindex.value).removeAttribute("class");
             sharpindex.value++;
+            document.getElementById(sharpindex.value).setAttribute("class", "hover");
             window.location.href = "#" + sharpindex.value;
-            //speechSynthesis.speak(new SpeechSynthesisUtterance(document.getElementById(sharpindex.value).innerHTML));
+            emits("display-pokemon", document.getElementById(sharpindex.value).getAttribute("pokemonUrl"))
         }
     }
 });
 document.addEventListener("keydown", (keycode) => {
     if (keycode.key === "ArrowUp") {
         if (sharpindex.value != 0) {
+            document.getElementById(sharpindex.value).removeAttribute("class");
             sharpindex.value--;
+            document.getElementById(sharpindex.value).setAttribute("class", "hover");
             window.location.href = "#" + sharpindex.value;
-            //speechSynthesis.speak(new SpeechSynthesisUtterance(document.getElementById(sharpindex.value).innerHTML));
+            emits("display-pokemon", document.getElementById(sharpindex.value).getAttribute("pokemonUrl"))
         }
     }
-});
-
-const displayPokemon = ref(() => {
-    //const data = await axios.get("https://pokeapi.co/api/v2/pokemon/");
-    console.log("yo");
 });
 </script>

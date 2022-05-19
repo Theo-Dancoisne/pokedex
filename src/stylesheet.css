@@ -17,32 +17,44 @@
     src: url("ressources/fonts/lcd2.ttf") format("truetype");
 }
 
-.led-screen {
+#screen {
+    width: 500px;
+    height: 270px;
+    font-family: "Lcd2";
+    color: var(--led-screen-text-color);
+    font-size: 3em;    /* differs by font */
+    border: solid 10px rgb(191, 8, 8);
+}
+.led-background-image {
     width: 100%;
     height: 100%;
     background-image: var(--led-screen-background-image-none);
     background-size: 50%;
     background-repeat: repeat;
 }
-.led-color {
+.led-background-color {
     width: 100%;
     height: 100%;
     background-image: var(--led-screen-background-color);
 }
-
-#bottom-screen {
-    width: 500px;
-    height: 270px;
-    font-family: "Lcd2";
-    color: var(--led-screen-text-color);
-    font-size: 3em;    /* differs by font */
+.porkemonSprite {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-#bottom-screen-body {
+.porkemonSprite img {
+    height: 100%;
+    filter: opacity(50%) grayscale(100%);
+    /* filter: saturate(0%) opacity(50%); */
+}
+
+#top-screen-body, #bottom-screen-body {
     width: 90%;
     height: 90%;
     padding: 2.5% 5%;
-    overflow: hidden scroll;
 }
+#bottom-screen-body { overflow: hidden scroll; }
 #bottom-screen-body::-webkit-scrollbar { background-color: transparent; }
 #bottom-screen-body::-webkit-scrollbar-thumb { background-color: transparent; }
 #bottom-screen-body ul {
@@ -50,7 +62,7 @@
     margin: 0;
     padding-inline-start: 0 !important;
 }
-#bottom-screen-body ul li:hover {
+#bottom-screen-body ul li:hover, .hover {
     background-color: var(--led-screen-text-color);
     color: rgb(156, 151, 21);
 }
