@@ -11,6 +11,7 @@ const emits = defineEmits(["display-pokemon"]);
 const list = ref("<ul id='pokemonlist'>");
 const bodyContent = ref(list);
 const sharpindex = ref(0);
+const previousSharpIndex = ref(0);
 
 const myVoices = [
     "Microsoft Guy Online (Natural) - English (United States)",
@@ -32,16 +33,20 @@ async function start() {
     setTimeout(() => {
         document.getElementById(sharpindex.value).setAttribute("class", "hover");
         let li = document.getElementById("pokemonlist").childNodes;
-        li.forEach(function (element) {
-            element.onclick = () => emits("display-pokemon", element.getAttribute("pokemonUrl"));
+        li.forEach(function (element, index) {
+            element.onclick = () => {
+                emits("display-pokemon", element.getAttribute("pokemonUrl"));
+                speak(element.innerHTML);
+                previousSharpIndex.value = sharpindex.value;
+                document.getElementById(previousSharpIndex.value).removeAttribute("class");
+                sharpindex.value = index;
+                document.getElementById(sharpindex.value).setAttribute("class", "hover");
+            }
         });
     }, 10);
 }
 watch(sharpindex, () => {
-    speechSynthesis.cancel();
-    let syntheVoice = new SpeechSynthesisUtterance(document.getElementById(sharpindex.value).innerHTML);
-    syntheVoice.voice = allVoices;
-    speechSynthesis.speak(syntheVoice);
+    speak(document.getElementById(sharpindex.value).innerHTML);
 });
 
 document.addEventListener("keydown", (keycode) => {
@@ -49,10 +54,17 @@ document.addEventListener("keydown", (keycode) => {
     if (keycode.key === "ArrowUp") next("up");
 });
 
+function speak(text) {
+    speechSynthesis.cancel();
+    let syntheVoice = new SpeechSynthesisUtterance(text);
+    syntheVoice.voice = allVoices;
+    speechSynthesis.speak(syntheVoice);
+}
 function next(direction) {
     let condition = (direction === "down")? Object.keys(allPokemons.value.data.results).length - 1: 0;
+    previousSharpIndex.value = sharpindex.value;
     if(sharpindex.value != condition) {
-        document.getElementById(sharpindex.value).removeAttribute("class");
+        document.getElementById(previousSharpIndex.value).removeAttribute("class");
         (direction === "down")? sharpindex.value++: sharpindex.value--;
         document.getElementById(sharpindex.value).setAttribute("class", "hover");
         window.location.href = "#" + sharpindex.value;

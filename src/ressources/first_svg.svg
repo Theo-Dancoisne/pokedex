@@ -1,0 +1,9 @@
+<svg width="500px" height="500px" xmlns="http://www.w3.org/2000/svg">
+    <rect width="20%" height="80%" x="40%" y="10%" fill="rgb(10, 10, 10)"/>
+    <rect width="80%" height="20%" x="10%" y="40%" fill="rgb(10, 10, 10)"/>
+    <circle cx="50%" cy="50%" r="10%" fill="rgb(25, 25, 25)"/>
+    <path d="M80 230
+           A 45 45, 0, 0, 1, 125 275
+           L 125 230 Z" fill="purple"/>
+    <path d="M250 250 l0 100 a-100 -100 0, 0, 1, 0 125 l0 100  Z" fill="purple"/>
+</svg>

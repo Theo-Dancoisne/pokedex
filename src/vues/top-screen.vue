@@ -11,7 +11,7 @@ import axios from "axios";
 const props = defineProps(["pokemonURL"]);
 const sprite = ref(null);
 watch(props, () => {
-    start();
+    if (props.pokemonURL) start();
 });
 
 async function start() {
