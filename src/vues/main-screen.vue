@@ -1,14 +1,22 @@
 <template>
+    <nav id="top-nav"></nav>
     <div v-html="bodyContent"></div>
+    <nav id="bottom-nav">
+        <span class="SVGarrow" @click="previousPage()"></span><span class="number" style="display: inline-block;">{{currentPage}}/{{numOfPages}}</span><span class="SVGarrow" @click="nextPage()"></span>
+    </nav>
 </template>
 
 <script setup>
 import { ref, reactive, watch } from "vue";
 import axios from "axios";
 
-const allPokemons =  reactive({});
+let allPokemons = null;
+let allPokemonsSort = {};
+const somePokemons = reactive({});
+const numOfPages = ref(null);
+const currentPage = ref(0);
 const emits = defineEmits(["display-pokemon"]);
-const list = ref("<ul id='pokemonlist'>");
+const list = ref(null);
 const bodyContent = ref(list);
 const sharpindex = ref(0);
 const previousSharpIndex = ref(0);
@@ -26,8 +34,30 @@ async function start() {
         allVoices = speechSynthesis.getVoices();
         allVoices = allVoices.find(({ name }) => myVoices.includes(name));
     }, 100);
-    await axios.get("https://pokeapi.co/api/v2/pokemon/").then(res => (allPokemons.value = res));
-    Object.values(allPokemons.value.data.results).forEach((element, index) => {list.value += `<li id=${index} pokemonUrl=${element.url}>${element.name}</li>`});
+    await axios.get("https://pokeapi.co/api/v2/pokemon/?limit=898").then(res => (allPokemons = res));
+    allPokemons = allPokemons.data.results;
+    let i = 0;
+    while (Object.keys(allPokemons).length > 0) {
+        allPokemonsSort[i] = {};
+        for (var y=0; y < 20; y++) {
+            if (Object.keys(allPokemons)[Object.keys(allPokemons).length-1] != undefined) {
+                allPokemonsSort[i][y] = allPokemons.shift();
+            }
+        }
+        i++;
+    }
+    numOfPages.value = Object.keys(allPokemonsSort)[Object.keys(allPokemonsSort).length-1];
+    initPage();
+}
+
+function initPage() {
+    somePokemons.value = allPokemonsSort[currentPage.value];
+    // reset pokemons list & pokemon index
+    list.value = "<ul id='pokemonlist'>";
+    sharpindex.value = 0;
+    previousSharpIndex.value = 0;
+    //
+    Object.values(somePokemons.value).forEach((element, index) => {list.value += `<li id=${index} pokemonUrl=${element.url}>${element.name}</li>`});
     list.value += "</ul>";
     window.location.href = "#" + sharpindex.value;
     setTimeout(() => {
@@ -43,15 +73,22 @@ async function start() {
                 document.getElementById(sharpindex.value).setAttribute("class", "hover");
             }
         });
+        emits("display-pokemon", document.getElementById(sharpindex.value).getAttribute("pokemonUrl"));
+        speak(document.getElementById(sharpindex.value).innerHTML);
     }, 10);
 }
 watch(sharpindex, () => {
     speak(document.getElementById(sharpindex.value).innerHTML);
 });
+watch(currentPage, () => {
+    initPage();
+});
 
 document.addEventListener("keydown", (keycode) => {
     if (keycode.key === "ArrowDown") next("down");
     if (keycode.key === "ArrowUp") next("up");
+    if (keycode.key === "ArrowLeft") previousPage("down");
+    if (keycode.key === "ArrowRight") nextPage("up");
 });
 
 function speak(text) {
@@ -61,7 +98,7 @@ function speak(text) {
     speechSynthesis.speak(syntheVoice);
 }
 function next(direction) {
-    let condition = (direction === "down")? Object.keys(allPokemons.value.data.results).length - 1: 0;
+    let condition = (direction === "down")? Object.keys(somePokemons.value).length - 1: 0;
     previousSharpIndex.value = sharpindex.value;
     if(sharpindex.value != condition) {
         document.getElementById(previousSharpIndex.value).removeAttribute("class");
@@ -71,4 +108,6 @@ function next(direction) {
         emits("display-pokemon", document.getElementById(sharpindex.value).getAttribute("pokemonUrl"));
     }
 }
+function previousPage() {if (currentPage.value != 0) currentPage.value--;}
+function nextPage() {if (currentPage.value != numOfPages.value) currentPage.value++;}
 </script>

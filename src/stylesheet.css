@@ -28,7 +28,6 @@
     flex-direction: column;
     align-items: center;
 }
-
 #top-screen-support, #bottom-screen-support {
     display: flex;
     justify-content: center;
@@ -155,15 +154,36 @@
     height: 90%;
     padding: 2.5% 5%;
 }
-#bottom-screen-body { overflow: hidden scroll; }
-#bottom-screen-body::-webkit-scrollbar { background-color: transparent; }
-#bottom-screen-body::-webkit-scrollbar-thumb { background-color: transparent; }
-#bottom-screen-body ul {
+#pokemonlist {overflow: hidden scroll; }
+#pokemonlist::-webkit-scrollbar { background-color: transparent; }
+#pokemonlist::-webkit-scrollbar-thumb { background-color: transparent; }
+#pokemonlist {
+    height: calc(75 * var(--screen-height) / 100);
     list-style: none;
     margin: 0;
     padding-inline-start: 0 !important;
 }
-#bottom-screen-body ul li:hover, .hover {
+#pokemonlist li:hover, .hover {
     background-color: var(--led-screen-text-color);
     color: rgb(156, 151, 21);
+}
+#top-nav, #bottom-nav {
+    text-align: center;
+}
+.SVGarrow {
+    display: inline-block;
+    background-image: url("./ressources/triangle_blanked.svg");
+    background-size: 100%;
+    width: 0.5em;
+    height: 0.5em;
+}
+.SVGarrow:first-of-type { transform: rotate(180deg); }
+.SVGarrow:hover {
+    background-image: url("./ressources/triangle_filled.svg");
+}
+.number {
+    margin: 0  2% 0 2%;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 0.6em;
 }
