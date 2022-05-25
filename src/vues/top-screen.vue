@@ -27,14 +27,14 @@ watch(props, () => {
 });
 
 async function start() {
-    // ‼ don't reset variables before this following sync function ‼
+    // ‼ don't reset variables before this following async function ‼
     await axios.get(props.pokemonURL).then(res => (pokemonData.value = res));
     pokemonData.value = await pokemonData.value.data;
     pokemonSumUp.types = pokemonSumUp.abilities = "";
-    pokemonSumUp.sprite = pokemonData.value.sprites.front_default;
+    pokemonSumUp.sprite = pokemonData.value.sprites.front_default;;
     // sprite.value = pokemonData.value.sprites.versions["generation-i"]["red-blue"].front_transparent;
-    for (var i=0; i < pokemonData.value.types.length; i++) {pokemonSumUp.types += pokemonData.value.types[i].type.name + " ";}
-    for (var i=0; i < pokemonData.value.abilities.length; i++) {pokemonSumUp.abilities += pokemonData.value.abilities[i].ability.name + " ";}
+    pokemonData.value.types.forEach(element => pokemonSumUp.types += element.type.name + " ");
+    pokemonData.value.abilities.forEach(element => pokemonSumUp.abilities += element.ability.name + " ");
     pokemonSumUp.height = pokemonData.value.height;
     pokemonSumUp.weight = pokemonData.value.weight;
 }
