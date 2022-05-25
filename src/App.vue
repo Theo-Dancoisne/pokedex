@@ -71,8 +71,8 @@ export default {
         }
     },
     methods: {
-        displayPokemon(i) {
-            this.pokemonURL = i;
+        displayPokemon(url) {
+            this.pokemonURL = url;
         }
     },
 }
