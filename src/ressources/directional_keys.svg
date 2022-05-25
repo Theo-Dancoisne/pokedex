@@ -1,0 +1,35 @@
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <radialGradient id="gradient">
+            <stop offset="75%" stop-color="rgb(50, 50, 50)"/>
+            <stop offset="100%" stop-color="rgb(66, 66, 66)"/>
+        </radialGradient>
+    </defs>
+    <style type="text/css">
+        rect {
+            fill: rgb(66, 66, 66);
+        }
+        rect:nth-child(odd) {
+            width: 125px;
+            height: 200px;
+        }
+        rect:nth-child(even) {
+            width: 200px;
+            height: 125px;
+        }
+        rect:hover/*, rect:hover ~ circle*/ {
+            fill: rgb(56, 56, 56);
+        }
+
+    </style>
+    <rect id="Top" x="187.5" y="50"/>
+    <rect id="Right" x="250" y="187.5"/>
+    <rect id="Bottom" x="187.5" y="250"/>
+    <rect id="Left" x="50" y="187.5"/>
+    <circle cx="250" cy="250" r="100" fill="url(#gradient)"/>
+
+    <view id="top" viewBox="187.5 50 125 200"/>
+    <view id="right" viewBox="250 187.5 200 125"/>
+    <view id="bottom" viewBox="187.5 250 125 200"/>
+    <view id="left" viewBox="50 187.5 200 125"/>
+</svg>
