@@ -54,7 +54,7 @@
 
 
 <script>
-import "./stylesheet.css";
+import "./ressources/stylesheets/pokedex_advanced.css";
 import TopScreen from "./vues/top-screen.vue";
 import MainScreen from "./vues/main-screen.vue";
 
@@ -67,7 +67,7 @@ export default {
     data() {
         return {
             pokemonURL: null,
-            directional_keys: "./src/ressources/directional_keys.svg",
+            directional_keys: "./src/ressources/images/directional_keys.svg",
         }
     },
     methods: {

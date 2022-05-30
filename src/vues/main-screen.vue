@@ -34,8 +34,7 @@ async function start() {
         allVoices = speechSynthesis.getVoices();
         allVoices = allVoices.find(({ name }) => myVoices.includes(name));
     }, 100);
-    await axios.get("https://pokeapi.co/api/v2/pokemon/?limit=898").then(res => (allPokemons = res));
-    allPokemons = allPokemons.data.results;
+    await axios.get("https://pokeapi.co/api/v2/pokemon/?limit=898").then(res => (allPokemons = res.data.results));
     let i = 0;
     while (Object.keys(allPokemons).length > 0) {
         allPokemonsSort[i] = {};
@@ -95,7 +94,7 @@ function speak(text) {
     speechSynthesis.cancel();
     let syntheVoice = new SpeechSynthesisUtterance(text);
     syntheVoice.voice = allVoices;
-    speechSynthesis.speak(syntheVoice);
+    //speechSynthesis.speak(syntheVoice);
 }
 function next(direction) {
     let condition = (direction === "down")? Object.keys(somePokemons.value).length - 1: 0;

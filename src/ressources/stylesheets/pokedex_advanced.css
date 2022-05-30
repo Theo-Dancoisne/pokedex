@@ -19,11 +19,11 @@
 }
 @font-face {
     font-family: "Lcd1";
-    src: url("ressources/fonts/lcd1.ttf") format("truetype");
+    src: url("src/ressources/fonts/lcd1.ttf") format("truetype");
 }
 @font-face {
     font-family: "Lcd2";
-    src: url("ressources/fonts/lcd2.ttf") format("truetype");
+    src: url("src/ressources/fonts/lcd2.ttf") format("truetype");
 }
 #pokedex {
     display: flex;
@@ -236,14 +236,14 @@
 }
 .SVGarrow {
     display: inline-block;
-    background-image: url("./ressources/triangle_blanked.svg");
+    background-image: url("src/ressources/images/triangle_blanked.svg");
     background-size: 100%;
     width: 0.5em;
     height: 0.5em;
 }
 .SVGarrow:first-of-type { transform: rotate(180deg); }
 .SVGarrow:hover {
-    background-image: url("./ressources/triangle_filled.svg");
+    background-image: url("src/ressources/images/triangle_filled.svg");
 }
 .number {
     margin: 0  2% 0 2%;

@@ -1,0 +1,83 @@
+:root {
+    --grey: #777 !important;
+    --red: #ff5350 !important;
+}
+body {
+    background-color: rgb(246, 248, 252);
+    margin: 0;
+    padding: 1.25% 9.83% 0 16.39%;
+}
+#pokeball_background {
+    position: fixed;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: url("/src/ressources/images/pokeball_grey.png");
+    background-size: 33.33%;
+    background-repeat: no-repeat;
+    background-position: -19% -50%;
+    opacity: 0.07;
+}
+header {
+    position: relative;
+    width: 100%;
+    height: 9.09vh;
+    background-color: #fff;
+    border-radius: 10px;
+}
+header nav {
+    width: 100%;
+    height: 100%;
+    padding-left: 40px;
+}
+header button {
+    height: 100%;
+    background-color: transparent;
+    padding-left: 5%;
+    border-style: none;
+    color: var(--grey);
+    border: solid transparent;
+    border-width: 0 0 2px 0;
+    display: inline-block;
+}
+header button:target {
+    color: var(--red);
+    border-color: var(--red);
+}
+.Pokedex {
+    background-image: url("/src/ressources/images/pokeball_grey.png");
+    background-size: auto 55%;
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+}
+.Pokedex:target { background-image: url("/src/ressources/images/pokeball_red.png"); }
+#home {
+    background-image: url("/src/ressources/images/home_grey.png");
+    background-size: auto 55%;
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+}
+#home:target { background-image: url("/src/ressources/images/home_red.png"); }
+#about {
+    background-image: url("/src/ressources/images/news_grey.png");
+    background-size: auto 55%;
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+}
+#about:target { background-image: url("/src/ressources/images/news_red.png"); }
+footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    height: 50px;
+    color: #fff;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+footer a { color: rgb(117, 200, 206); }

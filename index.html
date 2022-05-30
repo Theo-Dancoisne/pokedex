@@ -2,12 +2,33 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <link rel="icon" href="/src/ressources/pokeball.ico" />
+        <link rel="icon" href="/src/ressources/images/pokeball.ico" />
+        <link rel="stylesheet" href="src/ressources/stylesheets/index.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Pokedex</title>
     </head>
     <body>
-        <div id="app"></div>
-        <script type="module" src="/src/main.js"></script>
+        <span id="pokeball_background"></span>
+        <header>
+            <nav>
+                <button id="home" type="button" onclick="nav(this.getAttribute('id'));">Home</button>
+                <button id="pokedex-classic" type="button" class="Pokedex" onclick="nav(this.getAttribute('id'));">Pokedex Classic</button>
+                <button id="pokedex-advanced" type="button" class="Pokedex" onclick="nav(this.getAttribute('id'));">Pokedex Advanced</button>
+                <button id="about" type="button" onclick="nav(this.getAttribute('id'));">About</button>
+            </nav>
+        </header>
+        <main>
+            <div id="app"></div>
+            <script type="module" src="/src/main.js"></script>
+        </main>
+        <footer><p>Made by Théo Dancoisne during an internship at <a href="https://www.oeilpouroeil.fr/">Oeil Pour Oeil</a></p></footer>
     </body>
 </html>
+
+<script>
+    function nav(id) {
+        location.href = "#" + id;
+        // against moving to the anchor, not needed if the body don't have scrollY
+        //setTimeout(() => scrollTo(0, 0), 1);
+    }
+</script>

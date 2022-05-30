@@ -1,0 +1,35 @@
+:root {
+    /* --red: already defined in index.css; */
+}
+
+#pokedex-classic-container {
+    display: grid;
+    grid-template-columns: 65% 35%;
+}
+#searchBar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#searchBar input {
+    width: 100%;
+    height: 50px;
+}
+#searchBar button {
+    width: 50px;
+    height: 50px;
+    background-color: var(--red);
+    border-style: none;
+    border-radius: 10px;
+    background-image: url("/src/ressources/images/pokeball_white.png");
+    background-size: contain;
+}
+#pokemon-list {
+    overflow-y: scroll;
+    display: grid;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+}
+.grid-item {
+    background-color: #fff;
+    border-radius: 10px;
+}
