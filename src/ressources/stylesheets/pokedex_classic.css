@@ -1,5 +1,7 @@
 :root {
     /* --red: already defined in index.css; */
+    --blue: #000e48;
+    --grey: #8f9396;
 }
 
 #pokedex-classic-container {
@@ -25,11 +27,103 @@
     background-size: contain;
 }
 #pokemon-list {
+    height: 75vh;
     overflow-y: scroll;
     display: grid;
-    grid-template-columns: 33.33% 33.33% 33.33%;
+    grid-template-columns: 31.33% 31.33% 31.33%;
+    gap: 7% 3%;
 }
+#pokemon-list::-webkit-scrollbar { background-color: transparent; }
+#pokemon-list::-webkit-scrollbar-thumb { background-color: transparent; }
 .grid-item {
+    margin-top: 20%;
+    text-align: center;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: 25px;
+    box-shadow: 0px 20px 21px -13px rgba(0, 0, 0, 0.2);
+}
+.grid-item:active {
+    outline-offset: -12.5px;
+    outline: 5px solid var(--red);
+}
+.grid-item img {
+    position: relative;
+    top: -35%;
+}
+.pokemonNum {
+    position: relative;
+    top: -25%;
+    color: var(--grey);
+    font-size: small;
+    font-weight: bolder;
+}
+.pokemonName {
+    position: relative;
+    top: -20%;
+    color: var(--blue);
+    font-weight: bold;
+}
+.grid-item .types {
+    position: relative;
+    top: -10%;
+}
+.types div{
+    padding: 5px;
+    margin: 4px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    border-radius: 5px;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.5);
+}
+.grass {
+    background-color: #a8f083;
+}
+.fire {
+    background-color: #ff994d;
+}
+.fithing {
+    background-color: #f06563;
+}
+.water {
+    background-color: #86baff;
+}
+.steel {
+    background-color: #aaa9cd;
+}
+.poison {
+    background-color: rgb(240, 81, 255);
+}
+.flying {
+    background-color: #5fffbf;
+}
+.electric {
+    background-color: #371dff;
+}
+.ground {
+    background-color: #ffcd83;
+}
+.normal {
+    background-color: #919191;
+}
+.fairy {
+    background-color: #b81080;
+}
+.bug {
+    background-color: #2f6d34;
+}
+
+
+#right {
+    margin-top: 25%;
+    background-color: #fff;
+    border-radius: 25px;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+#someStats {
+    display: grid;
+    grid-template-columns: 50% 50%;
 }
