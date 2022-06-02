@@ -83,18 +83,20 @@ function start() {
     let limit = parseFloat(to.value) - parseFloat(from.value);
     displayPokemonList.value = Array(limit).fill({loader: `<div class="loader"></div>`});
     axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${from.value}`).then(res => {
-        const promiseArray = Object.values(res.data.results).map(async (element) => {
-            return await axios.get(element.url).then(res2 => {
-                res2 = res2.data;
-                return {
-                    pokemonUrl: element.url,
-                    num: res2.order,
-                    name: firstletterToUppercase(res2.name),
-                    imgUrl: res2.sprites.front_default,
-                    types: getPokemonTypes(res2.types),
-                    loader: "",
-                }
-            }).catch(error => console.error(error));
+        const promiseArray = Object.values(res.data.results).map((element) => {
+            return new Promise((resolve, reject) => {
+                axios.get(element.url).then(res2 => {
+                    res2 = res2.data;
+                    resolve({
+                        pokemonUrl: element.url,
+                        num: res2.order,
+                        name: firstletterToUppercase(res2.name),
+                        imgUrl: res2.sprites.front_default,
+                        types: getPokemonTypes(res2.types),
+                        loader: "",
+                    });
+                }).catch(error => console.error(error));
+            });
         });
         Promise.all(promiseArray).then((pokemonList) => {
             displayPokemonList.value = pokemonList;
