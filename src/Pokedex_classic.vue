@@ -2,7 +2,7 @@
     <div id="pokedex-classic-container">
         <div id="left">
             <form id="searchBar"><input type="text" placeholder="Search your Pokemon !"><button></button></form>
-            from<input type="number" name="from" min="0" v-model="from">to<input type="number" name="to" min="0" v-model="to">
+            from<input type="number" name="from" min="0" v-model="From">to<input type="number" name="to" min="1" v-model="To">
             <div>
                 <!-- some filter -->
             </div>
@@ -13,7 +13,11 @@
                         <img :src="pokemon.imgUrl" :alt="'picture of ' + pokemon.name" loading="lazy" decoding="async">
                         <div class="pokemonNum">N°{{pokemon.num}}</div>
                         <div class="pokemonName">{{pokemon.name}}</div>
-                        <div class="types" v-html="pokemon.types"></div>
+                        <div class="types">
+                            <template v-for="atype in pokemon.types">
+                                <div :class="atype" v-html="atype"></div>
+                            </template>
+                        </div>
                     </div>
                 </template>
             </div>
@@ -22,11 +26,19 @@
             <span id="pokemonNum">#{{stats.num}}</span>
             <span id="pokemonName">{{stats.name}}</span>
             <span id="pokemonAltName">{{stats.altname}}</span>
-            <span class="types" id="pokemonTypes" v-html="stats.types"></span>
+            <span class="types" id="pokemonTypes">
+                <template v-for="atype in stats.types">
+                    <div :class="atype" v-html="atype"></div>
+                </template>
+            </span>
             <span class="stat-title">POKEDEX ENTRY</span>
             <span id="pokemonDesc" v-html="stats.desc"></span>
             <span class="stat-title">ABILITIES</span>
-            <span id="pokemonAbilities" v-html="stats.abilities"></span>
+            <span id="pokemonAbilities">
+                <template v-for="ability in stats.abilities">
+                    <span class="other-stats-value"><span v-html="ability"></span></span>
+                </template>
+            </span>
             <span id="other-stats">
                 <span class="stat-title">HEIGHT</span><span class="stat-title">WEIGHT</span>
                 <span class="other-stats-value"><span id="height">{{stats.height}}m</span></span><span class="other-stats-value"><span id="weight">{{stats.weight}}Kg</span></span>
@@ -55,16 +67,16 @@ import axios from "axios";
 
 
 const displayPokemonList = ref([]);
-const from = ref(0);
-const to = ref(50);
+const From = ref(0);
+const To = ref(50);
 const stats = reactive(
     {
         num: "none",
         name: "unknow",
         altname: "John Doe",
-        types: "none",
+        types: ["none"],
         desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas asperiores impedit recusandae provident officiis natus. Id iste ipsam rerum suscipit illo fugiat porro tempore aliquid aut? Nulla voluptatibus iste cum!",
-        abilities: "none",
+        abilities: ["none"],
         height: "NaN",
         weight: "NaN",
         exp: "NaN",
@@ -79,10 +91,10 @@ const stats = reactive(
 );
 
 start();
-function start() {
-    let limit = parseFloat(to.value) - parseFloat(from.value);
+async function start(from = From.value, to = To.value) {
+    let limit = parseFloat(to) - parseFloat(from);
     displayPokemonList.value = Array(limit).fill({loader: `<div class="loader"></div>`});
-    axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${from.value}`).then(res => {
+    axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${from}`).then(async res => {
         const promiseArray = Object.values(res.data.results).map((element) => {
             return new Promise((resolve, reject) => {
                 axios.get(element.url).then(res2 => {
@@ -97,13 +109,24 @@ function start() {
                     });
                 }).catch(error => console.error(error));
             });
+            /*// work too
+            return axios.get(element.url).then(res2 => {
+                res2 = res2.data;
+                return {
+                    pokemonUrl: element.url,
+                    num: res2.order,
+                    name: firstletterToUppercase(res2.name),
+                    imgUrl: res2.sprites.front_default,
+                    types: getPokemonTypes(res2.types),
+                    loader: "",
+                };
+            }).catch(error => console.error(error));*/
         });
-        Promise.all(promiseArray).then((pokemonList) => {
+        return await Promise.all(promiseArray).then((pokemonList) => {
             displayPokemonList.value = pokemonList;
         });
     }).catch(error => console.error(error));
 }
-
 
 function updateRight(url) {
     axios.get(url).then(res => {
@@ -131,16 +154,16 @@ function updateRight(url) {
         }).catch(error => console.error(error));
     }).catch(error => console.error(error));
 }
-watch([from, to], () => {
-    // issue, to.value is not set (except if from.value is set first)
-    if ((from.value && to.value) > 0) start();
+watch([From, To], () => {
+    // ↓normal checks + to counter the issue when the inputs set manually (you can send a string instead of a number)
+    if (typeof(From.value && To.value) === "number" && From.value >= 0 && To.value >= 1 && From.value < To.value) start();
 });
 
 function getPokemonTypes(arrayOfTypes) {
-    return arrayOfTypes.map(element => `<div class="${element.type.name}">${element.type.name}</div>`).join("");
+    return arrayOfTypes.map(element => element.type.name);
 }
 function getPokemonAbilities(arrayOfAbilities) {
-    return arrayOfAbilities.map(element => `<span class="other-stats-value"><span>${firstletterToUppercase(element.ability.name)}</span></span>`).join("");
+    return arrayOfAbilities.map(element => firstletterToUppercase(element.ability.name));
 }
 function firstletterToUppercase(string) {
     return string[0].toUpperCase() + string.slice(1);
