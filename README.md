@@ -1,5 +1,10 @@
 # pokedex
 
+## Mock-up
+![mock-up of the website, taken on the internet](/public/mockup.png)
+![model od the pokedex, taken on the internet](/public/model-pokedex.png)
+
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
