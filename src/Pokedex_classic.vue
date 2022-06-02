@@ -2,7 +2,7 @@
     <div id="pokedex-classic-container">
         <div id="left">
             <form id="searchBar"><input type="text" placeholder="Search your Pokemon !"><button></button></form>
-            from<input type="text" name="from" v-model="from">to<input type="text" name="to" v-model="to">
+            from<input type="number" name="from" min="0" v-model="from">to<input type="number" name="to" min="0" v-model="to">
             <div>
                 <!-- some filter -->
             </div>
@@ -54,7 +54,6 @@ import "./ressources/stylesheets/pokedex_classic.css";
 import axios from "axios";
 
 
-const pokemonList = ref([]);
 const displayPokemonList = ref([]);
 const from = ref(0);
 const to = ref(50);
@@ -84,11 +83,10 @@ function start() {
     let limit = parseFloat(to.value) - parseFloat(from.value);
     displayPokemonList.value = Array(limit).fill({loader: `<div class="loader"></div>`});
     axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${from.value}`).then(res => {
-        pokemonList.value = [];
-        Object.values(res.data.results).forEach((element, index) => {
-            axios.get(element.url).then(res2 => {
+        const promiseArray = Object.values(res.data.results).map(async (element) => {
+            return await axios.get(element.url).then(res2 => {
                 res2 = res2.data;
-                pokemonList.value[index] = {
+                return {
                     pokemonUrl: element.url,
                     num: res2.order,
                     name: firstletterToUppercase(res2.name),
@@ -96,15 +94,15 @@ function start() {
                     types: getPokemonTypes(res2.types),
                     loader: "",
                 }
-            }).catch(error => console.log(error));
+            }).catch(error => console.error(error));
         });
-    }).catch(error => console.log(error))
-    .then(() => {
-        setTimeout(() => {
-            displayPokemonList.value = pokemonList.value;
-        }, 700);
-    });
+        Promise.all(promiseArray).then((pokemonList) => {
+            displayPokemonList.value = pokemonList;
+        });
+    }).catch(error => console.error(error));
 }
+
+
 function updateRight(url) {
     axios.get(url).then(res => {
         res = res.data;
@@ -128,11 +126,12 @@ function updateRight(url) {
         axios.get(res.species.url).then(res2 => {
             res2 = res2.data;
             stats.desc = res2.flavor_text_entries[0].flavor_text.replace(/\n/, " ").replace(/\f/, "");
-        }).catch(error => console.log(error));
-    }).catch(error => console.log(error));
+        }).catch(error => console.error(error));
+    }).catch(error => console.error(error));
 }
 watch([from, to], () => {
-    start();
+    // issue, to.value is not set (except if from.value is set first)
+    if ((from.value && to.value) > 0) start();
 });
 
 function getPokemonTypes(arrayOfTypes) {
