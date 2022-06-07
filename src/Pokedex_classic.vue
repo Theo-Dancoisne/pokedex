@@ -40,14 +40,14 @@
                 <div class="stat-title">ABILITIES</div>
                 <div id="pokemonAbilities">
                     <template v-for="ability in stats.abilities">
-                        <span class="other-stats-value"><span v-html="ability"></span></span>
+                        <span v-html="ability"></span>
                     </template>
                 </div>
-                <div id="other-stats">
+                <div id="pokemonStats">
                     <span class="stat-title">HEIGHT</span><span class="stat-title">WEIGHT</span>
-                    <span class="other-stats-value"><span id="height">{{stats.height}}m</span></span><span class="other-stats-value"><span id="weight">{{stats.weight}}Kg</span></span>
+                    <span class="stats-value"><span id="height">{{stats.height}}m</span></span><span class="stats-value"><span id="weight">{{stats.weight}}Kg</span></span>
                     <span class="stat-title">WEAKNESSES</span><span class="stat-title">BASE EXP</span>
-                    <span class="other-stats-value"><span>none</span></span><span class="other-stats-value"><span id="exp">{{stats.exp}}</span></span>
+                    <span class="stats-value"><span>none</span></span><span class="stats-value"><span id="exp">{{stats.exp}}</span></span>
                 </div>
                 <div class="stat-title">STATS</div>
                 <div id="basics-stats">
@@ -60,6 +60,7 @@
                     <label class="switch" id="pokemonToT"><span class="slider"></span><div class="stat-name">ToT</div><div class="stat-value">{{stats.total}}</div></label>
                 </div>
                 <div class="stat-title">EVOLUTION</div>
+                <span>pas envie</span>
             </div>
         </div>
     </div>
@@ -115,7 +116,7 @@ async function start(from = From.value, to = To.value) {
                     });
                 }).catch(error => console.error(error));
             });
-            /*// work too
+            /*// work too 'cause axios return a Promise too
             return axios.get(element.url).then(res2 => {
                 res2 = res2.data;
                 return {

@@ -123,6 +123,9 @@
     flex-direction: column;
     color: var(--blue);
 }
+.stat-title {
+    font-weight: bold;
+}
 
 .pokemonImg {
     margin: -45% auto 0 auto;
@@ -137,20 +140,23 @@
 }
 #pokemonAbilities {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
 }
-#other-stats {
+#pokemonAbilities span {
+    padding: 1% 10% 1% 2%;
+    background-color: var(--stats-grey);
+    border-radius: 34px;
+    border: solid 1px var(--red);
+}
+#pokemonStats {
     display: grid;
     grid-template-columns: 50% 50%;
 }
-.stat-title {
-    font-weight: bold;
-}
-.other-stats-value {
+.stats-value {
     display: flex;
     justify-content: center;
 }
-.other-stats-value span {
+.stats-value span {
     width: 90%;
     background-color: var(--stats-grey);
     border-radius: 34px;
