@@ -1,7 +1,7 @@
 <template>
     <div id="pokedex-classic-container">
         <div id="left">
-            <form id="searchBar"><input type="text" placeholder="Search your Pokemon !"><button></button></form>
+            <!-- <form id="searchBar"><input type="text" placeholder="Search your Pokemon !"><button></button></form> -->
             from<input type="number" name="from" min="0" v-model="From">to<input type="number" name="to" min="1" v-model="To">
             <div>
                 <!-- some filter -->
@@ -11,51 +11,56 @@
                     <div class="grid-item" @click="updateRight(pokemon.pokemonUrl);">
                         <div v-html="pokemon.loader"></div>
                         <img :src="pokemon.imgUrl" :alt="'picture of ' + pokemon.name" loading="lazy" decoding="async">
-                        <div class="pokemonNum">N°{{pokemon.num}}</div>
-                        <div class="pokemonName">{{pokemon.name}}</div>
-                        <div class="types">
-                            <template v-for="atype in pokemon.types">
-                                <div :class="atype" v-html="atype"></div>
-                            </template>
+                        <div class="stats-container">
+                            <div class="pokemonNum">N°{{pokemon.num}}</div>
+                            <div class="pokemonName">{{pokemon.name}}</div>
+                            <div class="types">
+                                <template v-for="atype in pokemon.types">
+                                    <div :class="atype" v-html="atype"></div>
+                                </template>
+                            </div>
                         </div>
                     </div>
                 </template>
             </div>
         </div>
         <div id="right">
-            <span id="pokemonNum">#{{stats.num}}</span>
-            <span id="pokemonName">{{stats.name}}</span>
-            <span id="pokemonAltName">{{stats.altname}}</span>
-            <span class="types" id="pokemonTypes">
-                <template v-for="atype in stats.types">
-                    <div :class="atype" v-html="atype"></div>
-                </template>
-            </span>
-            <span class="stat-title">POKEDEX ENTRY</span>
-            <span id="pokemonDesc" v-html="stats.desc"></span>
-            <span class="stat-title">ABILITIES</span>
-            <span id="pokemonAbilities">
-                <template v-for="ability in stats.abilities">
-                    <span class="other-stats-value"><span v-html="ability"></span></span>
-                </template>
-            </span>
-            <span id="other-stats">
-                <span class="stat-title">HEIGHT</span><span class="stat-title">WEIGHT</span>
-                <span class="other-stats-value"><span id="height">{{stats.height}}m</span></span><span class="other-stats-value"><span id="weight">{{stats.weight}}Kg</span></span>
-                <span class="stat-title">WEAKNESSES</span><span class="stat-title">BASE EXP</span>
-                <span class="other-stats-value"><span>none</span></span><span class="other-stats-value"><span id="exp">{{stats.exp}}</span></span>
-            </span>
-            <span class="stat-title">STATS</span>
-            <span id="basics-stats">
-                <label class="switch" id="pokemonHp"><span class="slider"></span><div class="stat-name">HP</div><div class="stat-value">{{stats.hp}}</div></label>
-                <label class="switch" id="pokemonAtk"><span class="slider"></span><div class="stat-name">ATK</div><div class="stat-value">{{stats.atk}}</div></label>
-                <label class="switch" id="pokemonDef"><span class="slider"></span><div class="stat-name">DEF</div><div class="stat-value">{{stats.def}}</div></label>
-                <label class="switch" id="pokemonSpA"><span class="slider"></span><div class="stat-name">SpA</div><div class="stat-value">{{stats.spatk}}</div></label>
-                <label class="switch" id="pokemonSpD"><span class="slider"></span><div class="stat-name">SpD</div><div class="stat-value">{{stats.spdef}}</div></label>
-                <label class="switch" id="pokemonSPD"><span class="slider"></span><div class="stat-name">SPD</div><div class="stat-value">{{stats.speed}}</div></label>
-                <label class="switch" id="pokemonToT"><span class="slider"></span><div class="stat-name">ToT</div><div class="stat-value">{{stats.total}}</div></label>
-            </span>
-            <span class="stat-title">EVOLUTION</span>
+            <img :src="stats.imgUrl" :alt="'picture of ' + stats.name" class="pokemonImg">
+            <div class="stats-container">
+                <div class="pokemonNum">#{{stats.num}}</div>
+                <div class="pokemonName">{{stats.name}}</div>
+                <div class="pokemonAltName">{{stats.altname}}</div>
+                <div class="types" id="pokemonTypes">
+                    <template v-for="atype in stats.types">
+                        <div :class="atype" v-html="atype"></div>
+                    </template>
+                </div>
+                <div class="stat-title">POKEDEX ENTRY</div>
+                <div id="pokemonDesc" v-html="stats.desc"></div>
+                <div class="stat-title">ABILITIES</div>
+                <div id="pokemonAbilities">
+                    <template v-for="ability in stats.abilities">
+                        <span class="other-stats-value"><span v-html="ability"></span></span>
+                    </template>
+                </div>
+                <div id="other-stats">
+                    <span class="stat-title">HEIGHT</span><span class="stat-title">WEIGHT</span>
+                    <span class="other-stats-value"><span id="height">{{stats.height}}m</span></span><span class="other-stats-value"><span id="weight">{{stats.weight}}Kg</span></span>
+                    <span class="stat-title">WEAKNESSES</span><span class="stat-title">BASE EXP</span>
+                    <span class="other-stats-value"><span>none</span></span><span class="other-stats-value"><span id="exp">{{stats.exp}}</span></span>
+                </div>
+                <div class="stat-title">STATS</div>
+                <div id="basics-stats">
+                    <label class="switch" id="pokemonHp"><span class="slider"></span><div class="stat-name">HP</div><div class="stat-value">{{stats.hp}}</div></label>
+                    <label class="switch" id="pokemonAtk"><span class="slider"></span><div class="stat-name">ATK</div><div class="stat-value">{{stats.atk}}</div></label>
+                    <label class="switch" id="pokemonDef"><span class="slider"></span><div class="stat-name">DEF</div><div class="stat-value">{{stats.def}}</div></label>
+                    <label class="switch" id="pokemonSpA"><span class="slider"></span><div class="stat-name">SpA</div><div class="stat-value">{{stats.spatk}}</div></label>
+                    <label class="switch" id="pokemonSpD"><span class="slider"></span><div class="stat-name">SpD</div><div class="stat-value">{{stats.spdef}}</div></label>
+                    <label class="switch" id="pokemonSPD"><span class="slider"></span><div class="stat-name">SPD</div><div class="stat-value">{{stats.speed}}</div></label>
+                    <label class="switch" id="pokemonToT"><span class="slider"></span><div class="stat-name">ToT</div><div class="stat-value">{{stats.total}}</div></label>
+                </div>
+                <div class="stat-title">EVOLUTION</div>
+            </div>
         </div>
     </div>
 </template>
@@ -72,10 +77,11 @@ const To = ref(50);
 const stats = reactive(
     {
         num: "none",
+        imgUrl: "./src/ressources/images/unknow.png",
         name: "unknow",
         altname: "John Doe",
         types: ["none"],
-        desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas asperiores impedit recusandae provident officiis natus. Id iste ipsam rerum suscipit illo fugiat porro tempore aliquid aut? Nulla voluptatibus iste cum!",
+        desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas asperiores impedit recusandae provident officiis natus.",
         abilities: ["none"],
         height: "NaN",
         weight: "NaN",
@@ -135,6 +141,7 @@ function updateRight(url) {
         for(var i=0; i <= 5; i++) { basic_stats.push(res.stats[i].base_stat); }
         stats.num = res.order;
         stats.name = firstletterToUppercase(res.name);
+        stats.imgUrl = res.sprites.front_default;
         stats.altname = firstletterToUppercase(res.species.name);
         stats.types = getPokemonTypes(res.types);
         stats.abilities= getPokemonAbilities(res.abilities);

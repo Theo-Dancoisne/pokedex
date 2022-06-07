@@ -1,7 +1,10 @@
 import { createApp } from "vue";
-// import Pokedex_advanced from "./Pokedex_advanced.vue";
 import Pokedex_classic from "./Pokedex_classic.vue";
+import Pokedex_advanced from "./Pokedex_advanced.vue";
 
 
-// createApp(Pokedex_advanced).mount("#app");
-createApp(Pokedex_classic).mount("#app");
+const apps = [Pokedex_classic, Pokedex_advanced];
+function Switch(index) {
+    createApp(apps[index]).mount("#app");
+}
+window.Switch = Switch;

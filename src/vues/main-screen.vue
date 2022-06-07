@@ -27,6 +27,7 @@ const myVoices = [
 ]
 let allVoices = null;
 
+
 start();
 async function start() {
     allVoices = speechSynthesis.getVoices();
@@ -65,7 +66,7 @@ function initPage() {
         li.forEach(function (element, index) {
             element.onclick = () => {
                 emits("display-pokemon", element.getAttribute("pokemonUrl"));
-                speak(element.innerHTML);
+                Speak(element.innerHTML);
                 previousSharpIndex.value = sharpindex.value;
                 document.getElementById(previousSharpIndex.value).removeAttribute("class");
                 sharpindex.value = index;
@@ -73,11 +74,11 @@ function initPage() {
             }
         });
         emits("display-pokemon", document.getElementById(sharpindex.value).getAttribute("pokemonUrl"));
-        speak(document.getElementById(sharpindex.value).innerHTML);
+        Speak(document.getElementById(sharpindex.value).innerHTML);
     }, 10);
 }
 watch(sharpindex, () => {
-    speak(document.getElementById(sharpindex.value).innerHTML);
+    Speak(document.getElementById(sharpindex.value).innerHTML);
 });
 watch(currentPage, () => {
     initPage();
@@ -90,11 +91,11 @@ document.addEventListener("keydown", (keycode) => {
     if (keycode.key === "ArrowRight") nextPage("up");
 });
 
-function speak(text) {
+function Speak(text) {
     speechSynthesis.cancel();
     let syntheVoice = new SpeechSynthesisUtterance(text);
     syntheVoice.voice = allVoices;
-    //speechSynthesis.speak(syntheVoice);
+    speechSynthesis.speak(syntheVoice);
 }
 function next(direction) {
     let condition = (direction === "down")? Object.keys(somePokemons.value).length - 1: 0;
