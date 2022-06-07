@@ -8,43 +8,7 @@
         <title>Pokedex</title>
     </head>
     <body>
-        <span id="pokeball_background"></span>
-        <header>
-            <nav id="navbar">
-                <button id="home" type="button" onclick="nav(this);">Home</button>
-                <button id="pokedex-classic" type="button" class="Pokedex" onclick="nav(this);">Pokedex Classic</button>
-                <button id="pokedex-advanced" type="button" class="Pokedex" onclick="nav(this);">Pokedex Advanced</button>
-                <button id="about" type="button" onclick="nav(this);">About</button>
-            </nav>
-        </header>
-        <main>
-            <div id="app"></div>
-            <script type="module" src="/src/main.js"></script>
-        </main>
-        <footer><p>Made by Théo Dancoisne during an internship at <a href="https://www.oeilpouroeil.fr/">Oeil Pour Oeil</a></p></footer>
+        <div id="app"></div>
+        <script type="module" src="/src/main.js"></script>
     </body>
 </html>
-
-<script>
-    function nav(node) {
-        const buttons = document.getElementById("navbar").getElementsByTagName("button");
-        Object.values(buttons).forEach(element => {
-            element.removeAttribute("is_selected");
-        });
-        node.setAttribute("is_selected", "");
-        switch (node.id) {
-            case "home":
-                console.log("nothing for the moment");
-                break;
-            case "pokedex-classic":
-                window.Switch(0);
-                break;
-            case "pokedex-advanced":
-                window.Switch(1);
-                break;
-            case "about":
-                console.log("nothing for the moment");
-                break;
-        }
-    }
-</script>
