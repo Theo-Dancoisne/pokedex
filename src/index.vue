@@ -2,87 +2,71 @@
     <span id="pokeball_background"></span>
         <header>
             <nav id="navbar">
-                <template v-for="page in Pages">
-                    <button :id="page.id" :class="page.class" page.is_selected>{{page.text}}</button>
+                <template v-for="(page, key) in Pages">
+                    <!-- <button :id="page.id" :class="page.class" :style="page.bg_img_selected">{{page.text}}</button> -->
+                    <button :id="page.id" :class="[page.class, (page.isSelected)?'selected':'']" :style="[(page.isSelected)?page.bg_img_selected:page.bg_img]" @click="switchPage(key);">{{page.text}}</button>
                 </template>
-                <!-- <button id="home" type="button" @click="nav(this);">Home</button>
-                <button id="pokedex-classic" type="button" class="Pokedex" @click="nav(this);">Pokedex Classic</button>
-                <button id="pokedex-advanced" type="button" class="Pokedex" @click="nav(this);">Pokedex Advanced</button>
-                <button id="about" type="button" @click="nav(this);">About</button> -->
             </nav>
         </header>
         <main>
-            <Main/>
-            <!-- <div id="app"></div>
-            <script type="module" src="/src/main.js"></script> -->
+            <Main />
         </main>
     <footer><p>Made by Théo Dancoisne during an internship at <a href="https://www.oeilpouroeil.fr/">Oeil Pour Oeil</a></p></footer>
 </template>
 
 <script setup>
-import { ref, reactive, watch, shallowRef } from "vue";
-import Pokedex_classic from "./Pokedex_classic.vue";
-import Pokedex_advanced from "./Pokedex_advanced.vue";
+import { ref, reactive, watch, shallowRef, defineAsyncComponent } from "vue";
+const Pokedex_classic = defineAsyncComponent(() => import("./Pokedex_classic.vue"));
+const Pokedex_advanced = defineAsyncComponent(() => import("./Pokedex_advanced.vue"));
 
-const apps = [Pokedex_classic, Pokedex_advanced];
-const Main = shallowRef(apps[0]);
+
 const Pages = reactive(
     {
         home: {
             text: "Home",
             id: "home",
             class: null,
-            goto: null,
-            is_selected: "",
+            goto: {},
+            isSelected: false,
+            bg_img: {"background-image": "url(/src/ressources/images/home_grey.png)"},
+            bg_img_selected: {"background-image": "url(/src/ressources/images/home_red.png)"},
         },
         pokedexClassic: {
             text: "Pokedex Classic",
             id: "pokedex-classic",
             class: "Pokedex",
-            goto: Pokedex_classic,
-            is_selected: "is_selected",
+            goto: shallowRef(Pokedex_classic),
+            isSelected: true,
+            bg_img: {"background-image": "url(/src/ressources/images/pokeball_grey.png)"},
+            bg_img_selected: {"background-image": "url(/src/ressources/images/pokeball_red.png)"},
         },
         pokedexAdvanced: {
             text: "Pokedex Advanced",
             id: "pokedex-advanced",
             class: "Pokedex",
-            goto: Pokedex_advanced,
-            is_selected: "",
+            goto: shallowRef(Pokedex_advanced),
+            isSelected: false,
+            bg_img: {"background-image": "url(/src/ressources/images/pokeball_grey.png)"},
+            bg_img_selected: {"background-image": "url(/src/ressources/images/pokeball_red.png)"},
         },
         about: {
             text: "About",
             id: "about",
             class: null,
-            goto: null,
-            is_selected: "",
+            goto: {},
+            isSelected: false,
+            bg_img: {"background-image": "url(/src/ressources/images/news_grey.png)"},
+            bg_img_selected: {"background-image": "url(/src/ressources/images/news_red.png)"},
         },
     }
 );
+const Main = shallowRef(Pages.pokedexClassic.goto);
 
-function Switch(index) {
-    Main.value = apps[index];
-}
-
-function nav(node) {
-    console.log(node);
-    const buttons = document.getElementById("navbar").getElementsByTagName("button");
-    Object.values(buttons).forEach(element => {
-        element.removeAttribute("is_selected");
+function switchPage(key) {
+    Object.values(Pages).forEach(element => {
+        element.isSelected = false;
     });
-    node.setAttribute("is_selected", "");
-    switch (node.id) {
-        case "home":
-            console.log("nothing for the moment");
-            break;
-        case "pokedex-classic":
-            window.Switch(0);
-            break;
-        case "pokedex-advanced":
-            window.Switch(1);
-            break;
-        case "about":
-            console.log("nothing for the moment");
-            break;
-    }
+    Pages[key].isSelected = true;
+    Main.value = Pages[key].goto;
 }
 </script>

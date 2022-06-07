@@ -42,31 +42,26 @@ header button {
     border-width: 0 0 2px 0;
     display: inline-block;
 }
-header button[is_selected] {
+.selected {
     color: var(--red);
     border-color: var(--red);
 }
 .Pokedex {
-    background-image: url("/src/ressources/images/pokeball_grey.png");
     background-size: auto 55%;
     background-position: 0 50%;
     background-repeat: no-repeat;
 }
-.Pokedex[is_selected] { background-image: url("/src/ressources/images/pokeball_red.png"); }
 #home {
-    background-image: url("/src/ressources/images/home_grey.png");
     background-size: auto 55%;
     background-position: 0 50%;
     background-repeat: no-repeat;
 }
-#home[is_selected] { background-image: url("/src/ressources/images/home_red.png"); }
 #about {
-    background-image: url("/src/ressources/images/news_grey.png");
     background-size: auto 55%;
     background-position: 0 50%;
     background-repeat: no-repeat;
 }
-#about[is_selected] { background-image: url("/src/ressources/images/news_red.png"); }
+
 footer {
     position: fixed;
     left: 0;
